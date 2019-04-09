@@ -1,0 +1,5 @@
+{
+  "load_extensions": {
+    "jupyter_clickable_image_widget/extension": true
+  }
+}
