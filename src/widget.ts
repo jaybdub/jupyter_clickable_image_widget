@@ -53,6 +53,7 @@ class ClickableImageView extends DOMWidgetView {
         this.pWidget.addClass('jupyter-widgets');
         this.pWidget.addClass('widget-image');
         this.update(); // Set defaults.
+        console.log('sanity test!')
     }
 
     update() {
@@ -102,6 +103,16 @@ class ClickableImageView extends DOMWidgetView {
         super.remove();
     }
 
+    
+    events(): {[e: string]: string} {
+        return {'click': '_handle_click'}
+    }
+    
+    _handle_click(event: any) {
+        event.preventDefault()
+        console.log(event)
+    }
+    
     /**
      * The default tag name.
      *
