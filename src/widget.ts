@@ -111,6 +111,16 @@ class ClickableImageView extends DOMWidgetView {
     _handle_click(event: any) {
         event.preventDefault()
         console.log(event)
+        this.send({
+            event: 'click',
+            eventData: {
+                altKey: event.altKey,
+                ctrlKey: event.ctrlKey,
+                shiftKey: event.shiftKey,
+                offsetX: event.offsetX,
+                offsetY: event.offsetY,
+            }
+        });
     }
     
     /**
