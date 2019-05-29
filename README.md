@@ -1,29 +1,40 @@
+# Jupyter Clickable Image Widget
 
-# jupyter_clickable_image_widget
+This repository contains an image widget (much like the ipywidgets.Image), but will send messages when the image is clicked.
 
-[![Build Status](https://travis-ci.org/jaybdub/jupyter_clickable_image_widget.svg?branch=master)](https://travis-ci.org/jaybdub/jupyter_clickable_image_widget)
-[![codecov](https://codecov.io/gh/jaybdub/jupyter_clickable_image_widget/branch/master/graph/badge.svg)](https://codecov.io/gh/jaybdub/jupyter_clickable_image_widget)
+# Setup
 
-
-A clickable image widget for Jupyter.
-
-## Installation
-
-You can install using `pip`:
+To install the widget type the following in a terminal
 
 ```bash
-pip install jupyter_clickable_image_widget
+sudo npm install -g typescript
+git clone https://github.com/jaybdub/jupyter_clickable_image_widget
+cd jupyter_clickable_image_widget
+sudo python3 setup.py build
+sudo npm run build
+sudo pip3 install .
+sudo jupyter labextension install .
+sudo jupyter labextension install @jupyter-widgets/jupyterlab-manager
 ```
 
-Or if you use jupyterlab:
+# Usage
 
-```bash
-pip install jupyter_clickable_image_widget
-jupyter labextension install @jupyter-widgets/jupyterlab-manager
-```
+```python
+from jupyter_clickable_image_widget import ClickableImageWidget
 
-If you are using Jupyter Notebook 5.2 or earlier, you may also need to enable
-the nbextension:
-```bash
-jupyter nbextension enable --py [--sys-prefix|--user|--system] jupyter_clickable_image_widget
+
+image_widget = ClickableImageWidget()
+
+def on_message(_, content, _):
+    if content['event'] == 'click':
+        data = content['eventData']
+        alt_key = data['altKey']
+        ctrl_key = data['ctrlKey']
+        shift_key = data['shiftKey']
+        x = data['offsetX']
+        y = data['offsetY']
+        
+        # do something...
+        
+image_widget.on_msg(on_message)
 ```
