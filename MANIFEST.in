@@ -1,0 +1,2 @@
+recursive-include jupyter_clickable_image_widget/static *.*
+include jupyter_clickable_image_widget.json
