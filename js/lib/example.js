@@ -23,6 +23,7 @@ var ClickableImageView = ipywidgets.ImageView.extend({
     _handle_click: function(event) {
         event.preventDefault()
         console.log(event)
+        console.log(event.srcElement.width)
         this.send({
             event: 'click',
             eventData: {
@@ -31,6 +32,10 @@ var ClickableImageView = ipywidgets.ImageView.extend({
                 shiftKey: event.shiftKey,
                 offsetX: event.offsetX,
                 offsetY: event.offsetY,
+                width: event.srcElement.width,
+                height: event.srcElement.height,
+                naturalWidth: event.srcElement.naturalWidth,
+                naturalHeight: event.srcElement.naturalHeight,
             }
         });
     }
