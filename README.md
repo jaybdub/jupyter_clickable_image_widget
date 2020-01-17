@@ -1,35 +1,40 @@
-jupyter_clickable_image_widget
-===============================
+# Jupyter Clickable Image Widget
 
-A Custom Jupyter Widget Library
+This repository contains an image widget (much like the ipywidgets.Image), but will send messages when the image is clicked.
 
-Installation
-------------
+# Setup
 
-To install use pip:
+To install the widget type the following in a terminal
 
-    $ pip install jupyter_clickable_image_widget
-    $ jupyter nbextension enable --py --sys-prefix jupyter_clickable_image_widget
+```bash
+sudo pip3 install jupyter jupyterlab
+sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
+sudo apt-get install npm
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+git clone https://github.com/jaybdub/jupyter_clickable_image_widget
+cd jupyter_clickable_image_widget
+sudo pip3 install -e .
+jupyter labextension install js
+```
 
-To install for jupyterlab
+# Usage
 
-    $ jupyter labextension install jupyter_clickable_image_widget
+```python
+from jupyter_clickable_image_widget import ClickableImageWidget
 
-For a development installation (requires npm),
 
-    $ git clone https://github.com//jupyter_clickable_image_widget.git
-    $ cd jupyter_clickable_image_widget
-    $ pip install -e .
-    $ jupyter nbextension install --py --symlink --sys-prefix jupyter_clickable_image_widget
-    $ jupyter nbextension enable --py --sys-prefix jupyter_clickable_image_widget
-    $ jupyter labextension install js
+image_widget = ClickableImageWidget()
 
-When actively developing your extension, build Jupyter Lab with the command:
-
-    $ jupyter lab --watch
-
-This take a minute or so to get started, but then allows you to hot-reload your javascript extension.
-To see a change, save your javascript, watch the terminal for an update.
-
-Note on first `jupyter lab --watch`, you may need to touch a file to get Jupyter Lab to open.
-
+def on_message(_, content, ignore):
+    if content['event'] == 'click':
+        data = content['eventData']
+        alt_key = data['altKey']
+        ctrl_key = data['ctrlKey']
+        shift_key = data['shiftKey']
+        x = data['offsetX']
+        y = data['offsetY']
+        
+        # do something...
+        
+image_widget.on_msg(on_message)
+```
