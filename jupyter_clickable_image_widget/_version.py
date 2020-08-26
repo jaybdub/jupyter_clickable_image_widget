@@ -1,8 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
+# Module version
+version_info = (0, 1, 0, 'alpha', 0)
 
-# Copyright (c) John Welsh.
-# Distributed under the terms of the Modified BSD License.
+# Module version stage suffix map
+_specifier_ = {'alpha': 'a', 'beta': 'b', 'candidate': 'rc', 'final': ''}
 
-version_info = (0, 1, 0, 'dev')
-__version__ = ".".join(map(str, version_info))
+# Module version accessible using jupyter_clickable_image_widget.__version__
+__version__ = '%s.%s.%s%s'%(version_info[0], version_info[1], version_info[2],
+  '' if version_info[3]=='final' else _specifier_[version_info[3]]+str(version_info[4]))
