@@ -1,6 +1,26 @@
-from ._version import version_info, __version__
+from ._version import __version__
 
 from .example import *
+
+
+def _jupyter_labextension_paths():
+    """Called by Jupyter Lab Server to detect if it is a valid labextension and
+    to install the widget
+
+    Returns
+    =======
+    src: Source directory name to copy files from. Webpack outputs generated files
+        into this directory and Jupyter Lab copies from this directory during
+        widget installation
+    dest: Destination directory name to install widget files to. Jupyter Lab copies
+        from `src` directory into <jupyter path>/labextensions/<dest> directory
+        during widget installation
+    """
+    return [{
+        'src': 'labextension',
+        'dest': 'jupyter_clickable_image_widget',
+    }]
+
 
 def _jupyter_nbextension_paths():
     """Called by Jupyter Notebook Server to detect if it is a valid nbextension and
@@ -21,7 +41,7 @@ def _jupyter_nbextension_paths():
     """
     return [{
         'section': 'notebook',
-        'src': 'static',
+        'src': 'nbextension',
         'dest': 'jupyter_clickable_image_widget',
         'require': 'jupyter_clickable_image_widget/extension'
     }]
