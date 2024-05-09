@@ -1,29 +1,51 @@
-var widgets = require('@jupyter-widgets/base');
+import { DOMWidgetModel, DOMWidgetView } from '@jupyter-widgets/base';
 var ipywidgets = require("@jupyter-widgets/controls");
-var _ = require('lodash');
 
+// See example.py for the kernel counterpart to this file.
 
-var ClickableImageModel = ipywidgets.ImageModel.extend({
-    defaults: _.extend(widgets.DOMWidgetModel.prototype.defaults(), {
-        _model_name : 'ClickableImageModel',
-        _view_name : 'ClickableImageView',
-        _model_module : 'jupyter_clickable_image_widget',
-        _view_module : 'jupyter_clickable_image_widget',
-        _model_module_version : '0.1.0',
-        _view_module_version : '0.1.0',
-    })
-});
+// Custom Model. Custom widgets models must at least provide default values
+// for model attributes, including
+//
+//  - `_view_name`
+//  - `_view_module`
+//  - `_view_module_version`
+//
+//  - `_model_name`
+//  - `_model_module`
+//  - `_model_module_version`
+//
+//  when different from the base class.
 
+// When serialiazing the entire widget state for embedding, only values that
+// differ from the defaults will be serialized.
 
-var ClickableImageView = ipywidgets.ImageView.extend({
-    events: function() {
-        return {'click': '_handle_click'}
-    },
-    
-    _handle_click: function(event) {
-        event.preventDefault()
-        console.log(event)
-        console.log(event.srcElement.width)
+export class ClickableImageModel extends ipywidgets.ImageModel{
+    defaults() {
+        return {
+            ...super.defaults(),
+            _model_name : 'ClickableImageModel',
+            _view_name : 'ClickableImageView',
+            _model_module : 'jupyter_clickable_image_widget',
+            _view_module : 'jupyter_clickable_image_widget',
+            _model_module_version : '0.1.0',
+            _view_module_version : '0.1.0',
+        };
+    }
+}
+
+export class ClickableImageView extends ipywidgets.ImageView {
+    initialize(parameters) {
+        super.initialize(parameters);
+    }
+    events() {
+        return {
+            'click': '_handle_click'
+        };
+    }
+    _handle_click(event) {
+        event.preventDefault();
+        console.log(event);
+        console.log(event.offsetX);
         this.send({
             event: 'click',
             eventData: {
@@ -32,18 +54,11 @@ var ClickableImageView = ipywidgets.ImageView.extend({
                 shiftKey: event.shiftKey,
                 offsetX: event.offsetX,
                 offsetY: event.offsetY,
-                width: event.srcElement.width,
-                height: event.srcElement.height,
-                naturalWidth: event.srcElement.naturalWidth,
-                naturalHeight: event.srcElement.naturalHeight,
+                width: event.target.width,
+                height: event.target.height,
+                naturalWidth: event.target.naturalWidth,
+                naturalHeight: event.target.naturalHeight,
             }
         });
     }
-    
-});
-
-
-module.exports = {
-    ClickableImageModel: ClickableImageModel,
-    ClickableImageView: ClickableImageView
-};
+}

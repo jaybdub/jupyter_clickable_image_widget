@@ -22,7 +22,7 @@ log.set_verbosity(log.DEBUG)
 log.info('setup.py entered')
 log.info('$PATH=%s' % os.environ['PATH'])
 
-LONG_DESCRIPTION = 'A Custom Jupyter Widget Library'
+LONG_DESCRIPTION = 'Custom Image Widget with Click Feedback Capability'
 
 def js_prerelease(command, strict=False):
     """decorator for building minified js/css prior to another command"""
